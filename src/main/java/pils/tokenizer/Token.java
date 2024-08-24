@@ -4,7 +4,7 @@ public enum Token {
     LPAREN("("),
     RPAREN(")"),
     EOF("<eof>"),
-    NAME("<name>");
+    SYMBOL("<symbol>");
 
     private final String image;
 

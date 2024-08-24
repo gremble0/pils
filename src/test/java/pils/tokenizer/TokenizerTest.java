@@ -7,9 +7,9 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class TokenizerTest {
   @Test
@@ -19,10 +19,10 @@ public class TokenizerTest {
   }
 
   @Test
-  public void testBasicTokenizer() throws FileNotFoundException {
+  public void testBasicTokenizer() throws FileNotFoundException, IOException {
     // Initialize tokenizer and logging
-    PrintStream logStream = new PrintStream(new FileOutputStream("src/test/tokenizer/logs/basic.log"));
-    Tokenizer tokenizer = new Tokenizer("src/test/tokenizer/source/basic.pls", logStream);
+    PrintStream logStream = new PrintStream(new FileOutputStream("src/test/tokenizer/actual/basic.log"));
+    Tokenizer tokenizer = new Tokenizer("src/test/tokenizer/source/basic.pils", logStream);
 
     // Tokenizer the file
     while (!tokenizer.eof())
@@ -30,9 +30,14 @@ public class TokenizerTest {
 
     // Assert successful tokenization
     BufferedReader expectedReader = new BufferedReader(new FileReader("src/test/tokenizer/expected/basic.log"));
-    BufferedReader actualReader = new BufferedReader(new FileReader("src/test/tokenizer/logs/basic.log"));
+    BufferedReader actualReader = new BufferedReader(new FileReader("src/test/tokenizer/actual/basic.log"));
+
     List<String> expectedLines = expectedReader.lines().toList();
     List<String> actualLines = actualReader.lines().toList();
+
     Assertions.assertEquals(expectedLines, actualLines);
+
+    expectedReader.close();
+    actualReader.close();
   }
 }
