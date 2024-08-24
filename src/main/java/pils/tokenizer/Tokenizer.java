@@ -29,49 +29,52 @@ public class Tokenizer {
   }
 
   public boolean eof() {
-    return this.token == Token.EOF;
+    return this.token != null && this.token.type() == Token.Type.EOF;
   }
 
   public void advance() {
+    // If we're finished tokenizing the current line go onto the next
     if (this.lineCursor >= this.line.length())
-      this.readLine();
-
-    if (this.token == Token.EOF)
-      return;
+      // If we've reached the end of the file
+      if (this.readLine())
+        return;
 
     char curChar = this.line.charAt(this.lineCursor);
     switch (curChar) {
       case '(':
-        this.setToken(Token.LPAREN);
+        this.setToken(new Token(Token.Type.LPAREN, Optional.empty()));
         ++this.lineCursor;
         break;
 
       case ')':
-        this.setToken(Token.RPAREN);
+        this.setToken(new Token(Token.Type.RPAREN, Optional.empty()));
         ++this.lineCursor;
         break;
 
       default: {
-        this.setToken(Token.SYMBOL);
+        this.setToken(new Token(Token.Type.SYMBOL, Optional.of("hey")));
         ++this.lineCursor;
         break;
       }
     }
   }
 
-  private void readLine() {
+  private boolean readLine() {
     this.lineCursor = 0;
 
     try {
       this.line = this.reader.readLine();
       if (this.line == null) {
         this.reader.close();
-        this.setToken(Token.EOF);
+        this.setToken(new Token(Token.Type.EOF, Optional.empty()));
+        return true;
       }
     } catch (IOException exception) {
       // TODO: better error - what does this even mean?
       throw new TokenizerException("IO error");
     }
+
+    return false;
   }
 
   private void setToken(Token token) {
