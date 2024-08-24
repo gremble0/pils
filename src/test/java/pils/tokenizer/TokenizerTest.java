@@ -21,9 +21,8 @@ public class TokenizerTest {
   @Test
   public void testBasicTokenizer() throws FileNotFoundException {
     // Initialize tokenizer and logging
-    Tokenizer tokenizer = new Tokenizer("src/test/tokenizer/source/basic.pls");
     PrintStream logStream = new PrintStream(new FileOutputStream("src/test/tokenizer/logs/basic.log"));
-    tokenizer.setLogStream(logStream);
+    Tokenizer tokenizer = new Tokenizer("src/test/tokenizer/source/basic.pls", logStream);
 
     // Tokenizer the file
     while (!tokenizer.eof())
