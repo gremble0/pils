@@ -1,19 +1,19 @@
 package pils.tokenizer;
 
 public enum Token {
-    LPAREN("("),
-    RPAREN(")"),
-    EOF("<eof>"),
-    SYMBOL("<symbol>");
+  LPAREN("("),
+  RPAREN(")"),
+  EOF("<eof>"),
+  SYMBOL("<symbol>");
 
-    private final String image;
+  private final String image;
 
-    private Token(String image) {
-        this.image = image;
-    }
+  private Token(String image) {
+    this.image = image;
+  }
 
-    @Override
-    public String toString() {
-        return this.image;
-    }
+  @Override
+  public String toString() {
+    return this.image;
+  }
 }
