@@ -1,14 +1,14 @@
 package pils.tokenizer;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.LineNumberReader;
 import java.io.PrintStream;
 import java.util.Optional;
 
 public class Tokenizer {
-  private final BufferedReader reader;
+  private final LineNumberReader reader;
   private Optional<PrintStream> logStream;
   private String curLine;
   private int linePos;
@@ -19,8 +19,9 @@ public class Tokenizer {
   }
 
   public Tokenizer(String path, PrintStream logStream) throws FileNotFoundException {
-    this.reader = new BufferedReader(new FileReader(path));
+    this.reader = new LineNumberReader(new FileReader(path));
     this.setLogStream(logStream);
+    this.readLine();
   }
 
   public void setLogStream(PrintStream logStream) {
@@ -32,7 +33,9 @@ public class Tokenizer {
   }
 
   public void advance() {
-    this.readLine();
+    if (this.linePos >= this.curLine.length())
+      this.readLine();
+
     if (this.curToken == Token.EOF)
       return;
 
@@ -42,13 +45,16 @@ public class Tokenizer {
         this.setCurToken(Token.LPAREN);
         ++this.linePos;
         break;
+
       case ')':
         this.setCurToken(Token.RPAREN);
         ++this.linePos;
         break;
+
       default: {
         this.setCurToken(Token.SYMBOL);
         ++this.linePos;
+        break;
       }
     }
   }
@@ -70,7 +76,7 @@ public class Tokenizer {
 
   private void setCurToken(Token token) {
     if (this.logStream.isPresent())
-      this.logStream.get().println(token);
+      this.logStream.get().println("Line " + this.reader.getLineNumber() + ": " + token);
     this.curToken = token;
   }
 }

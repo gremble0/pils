@@ -20,7 +20,7 @@ public class TokenizerTest {
   @Test
   public void testTokenizeParens() throws Exception {
     // Initialize tokenizer and logging
-    PrintStream logStream = new PrintStream(new FileOutputStream("src/test/tokenizer/actual/parens.log"));
+    PrintStream logStream = new PrintStream(new FileOutputStream("src/test/tokenizer/logs/parens.log"));
     Tokenizer tokenizer = new Tokenizer("src/test/tokenizer/source/parens.pils", logStream);
 
     // Tokenizer the file
@@ -29,7 +29,7 @@ public class TokenizerTest {
 
     // Assert successful tokenization
     BufferedReader expectedReader = new BufferedReader(new FileReader("src/test/tokenizer/expected/parens.log"));
-    BufferedReader actualReader = new BufferedReader(new FileReader("src/test/tokenizer/actual/parens.log"));
+    BufferedReader actualReader = new BufferedReader(new FileReader("src/test/tokenizer/logs/parens.log"));
 
     List<String> expectedLines = expectedReader.lines().toList();
     List<String> actualLines = actualReader.lines().toList();
@@ -43,7 +43,7 @@ public class TokenizerTest {
   @Test
   public void testBasicTokenizer() throws Exception {
     // Initialize tokenizer and logging
-    PrintStream logStream = new PrintStream(new FileOutputStream("src/test/tokenizer/actual/basic.log"));
+    PrintStream logStream = new PrintStream(new FileOutputStream("src/test/tokenizer/logs/basic.log"));
     Tokenizer tokenizer = new Tokenizer("src/test/tokenizer/source/basic.pils", logStream);
 
     // Tokenizer the file
@@ -52,7 +52,7 @@ public class TokenizerTest {
 
     // Assert successful tokenization
     BufferedReader expectedReader = new BufferedReader(new FileReader("src/test/tokenizer/expected/basic.log"));
-    BufferedReader actualReader = new BufferedReader(new FileReader("src/test/tokenizer/actual/basic.log"));
+    BufferedReader actualReader = new BufferedReader(new FileReader("src/test/tokenizer/logs/basic.log"));
 
     List<String> expectedLines = expectedReader.lines().toList();
     List<String> actualLines = actualReader.lines().toList();
