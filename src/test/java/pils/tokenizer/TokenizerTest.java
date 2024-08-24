@@ -17,49 +17,36 @@ public class TokenizerTest {
     Assertions.assertDoesNotThrow(() -> new Tokenizer("src/test/tokenizer/source/empty.pls"));
   }
 
-  @Test
-  public void testTokenizeParens() throws Exception {
+  private void tokenizeFile(String baseName) throws Exception {
     // Initialize tokenizer and logging
-    PrintStream logStream = new PrintStream(new FileOutputStream("src/test/tokenizer/logs/parens.log"));
-    Tokenizer tokenizer = new Tokenizer("src/test/tokenizer/source/parens.pils", logStream);
+    PrintStream logStream = new PrintStream(new FileOutputStream("src/test/tokenizer/logs/" + baseName + ".log"));
+    Tokenizer tokenizer = new Tokenizer("src/test/tokenizer/source/" + baseName + ".pils", logStream);
 
     // Tokenizer the file
     while (!tokenizer.eof())
       tokenizer.advance();
 
     // Assert successful tokenization
-    BufferedReader expectedReader = new BufferedReader(new FileReader("src/test/tokenizer/expected/parens.log"));
-    BufferedReader actualReader = new BufferedReader(new FileReader("src/test/tokenizer/logs/parens.log"));
+    BufferedReader expectedReader = new BufferedReader(
+        new FileReader("src/test/tokenizer/expected/" + baseName + ".log"));
+    BufferedReader actualReader = new BufferedReader(new FileReader("src/test/tokenizer/logs/" + baseName + ".log"));
 
     List<String> expectedLines = expectedReader.lines().toList();
     List<String> actualLines = actualReader.lines().toList();
 
-    Assertions.assertEquals(expectedLines, actualLines);
+    Assertions.assertIterableEquals(expectedLines, actualLines);
 
     expectedReader.close();
     actualReader.close();
   }
 
   @Test
+  public void testTokenizeParens() throws Exception {
+    this.tokenizeFile("parens");
+  }
+
+  @Test
   public void testBasicTokenizer() throws Exception {
-    // Initialize tokenizer and logging
-    PrintStream logStream = new PrintStream(new FileOutputStream("src/test/tokenizer/logs/basic.log"));
-    Tokenizer tokenizer = new Tokenizer("src/test/tokenizer/source/basic.pils", logStream);
-
-    // Tokenizer the file
-    while (!tokenizer.eof())
-      tokenizer.advance();
-
-    // Assert successful tokenization
-    BufferedReader expectedReader = new BufferedReader(new FileReader("src/test/tokenizer/expected/basic.log"));
-    BufferedReader actualReader = new BufferedReader(new FileReader("src/test/tokenizer/logs/basic.log"));
-
-    List<String> expectedLines = expectedReader.lines().toList();
-    List<String> actualLines = actualReader.lines().toList();
-
-    Assertions.assertEquals(expectedLines, actualLines);
-
-    expectedReader.close();
-    actualReader.close();
+    this.tokenizeFile("basic");
   }
 }

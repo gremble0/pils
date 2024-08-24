@@ -10,9 +10,9 @@ import java.util.Optional;
 public class Tokenizer {
   private final LineNumberReader reader;
   private Optional<PrintStream> logStream;
-  private String curLine;
-  private int linePos;
-  private Token curToken;
+  private String line;
+  private int lineCursor;
+  private Token token;
 
   public Tokenizer(String path) throws FileNotFoundException {
     this(path, null);
@@ -29,44 +29,44 @@ public class Tokenizer {
   }
 
   public boolean eof() {
-    return this.curToken == Token.EOF;
+    return this.token == Token.EOF;
   }
 
   public void advance() {
-    if (this.linePos >= this.curLine.length())
+    if (this.lineCursor >= this.line.length())
       this.readLine();
 
-    if (this.curToken == Token.EOF)
+    if (this.token == Token.EOF)
       return;
 
-    char curChar = this.curLine.charAt(this.linePos);
+    char curChar = this.line.charAt(this.lineCursor);
     switch (curChar) {
       case '(':
-        this.setCurToken(Token.LPAREN);
-        ++this.linePos;
+        this.setToken(Token.LPAREN);
+        ++this.lineCursor;
         break;
 
       case ')':
-        this.setCurToken(Token.RPAREN);
-        ++this.linePos;
+        this.setToken(Token.RPAREN);
+        ++this.lineCursor;
         break;
 
       default: {
-        this.setCurToken(Token.SYMBOL);
-        ++this.linePos;
+        this.setToken(Token.SYMBOL);
+        ++this.lineCursor;
         break;
       }
     }
   }
 
   private void readLine() {
-    this.linePos = 0;
+    this.lineCursor = 0;
 
     try {
-      this.curLine = this.reader.readLine();
-      if (this.curLine == null) {
+      this.line = this.reader.readLine();
+      if (this.line == null) {
         this.reader.close();
-        this.setCurToken(Token.EOF);
+        this.setToken(Token.EOF);
       }
     } catch (IOException exception) {
       // TODO: better error - what does this even mean?
@@ -74,9 +74,9 @@ public class Tokenizer {
     }
   }
 
-  private void setCurToken(Token token) {
+  private void setToken(Token token) {
     if (this.logStream.isPresent())
       this.logStream.get().println("Line " + this.reader.getLineNumber() + ": " + token);
-    this.curToken = token;
+    this.token = token;
   }
 }
