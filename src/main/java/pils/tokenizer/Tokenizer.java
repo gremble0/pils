@@ -51,12 +51,22 @@ public class Tokenizer {
         ++this.lineCursor;
         break;
 
-      default: {
-        this.setToken(new Token(Token.Type.SYMBOL, Optional.of("hey")));
-        ++this.lineCursor;
+      default:
+        this.tokenizeSymbol();
         break;
-      }
     }
+  }
+
+  private void tokenizeSymbol() {
+    StringBuilder symbol = new StringBuilder();
+    char curChar = this.line.charAt(this.lineCursor);
+    while (curChar != '(' && curChar != ')' && curChar != ' ' && this.lineCursor < this.line.length()) {
+      symbol.append(curChar);
+      curChar = this.line.charAt(this.lineCursor);
+      ++this.lineCursor;
+    }
+
+    this.setToken(new Token(Token.Type.SYMBOL, Optional.of(symbol.toString())));
   }
 
   private boolean readLine() {
