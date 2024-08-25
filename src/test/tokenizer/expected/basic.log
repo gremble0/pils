@@ -1,0 +1,5 @@
+Line 1: (
+Line 1: symbol: print
+Line 1: string-literal: "hello world"
+Line 1: )
+Line 1: <eof>
