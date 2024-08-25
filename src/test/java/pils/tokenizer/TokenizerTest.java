@@ -14,7 +14,7 @@ public class TokenizerTest {
   @Test
   public void testConstructor() {
     Assertions.assertThrows(FileNotFoundException.class, () -> new Tokenizer(""));
-    Assertions.assertDoesNotThrow(() -> new Tokenizer("src/test/tokenizer/source/empty.pls"));
+    Assertions.assertDoesNotThrow(() -> new Tokenizer("src/test/tokenizer/source/empty.pils"));
   }
 
   private void tokenizeFile(String baseName) throws Exception {

@@ -48,26 +48,26 @@ public record Token(Type type, Optional<Object> value) {
 
   @Override
   public String toString() {
-    String out = this.type.toString() + ' ';
+    String out = this.type.toString();
     switch (this.type) {
       case SYMBOL:
-        out += this.getSymbol();
+        out += ": " + this.getSymbol();
         break;
 
       case INT_LITERAL:
-        out += this.getInt();
+        out += ": " + this.getInt();
         break;
 
       case FLOAT_LITERAL:
-        out += this.getFloat();
+        out += ": " + this.getFloat();
         break;
 
       case CHAR_LITERAL:
-        out += '\'' + this.getChar() + '\'';
+        out += ": '" + this.getChar() + '\'';
         break;
 
       case STRING_LITERAL:
-        out += '"' + this.getString() + '"';
+        out += ": \"" + this.getString() + '"';
         break;
 
       case LPAREN:

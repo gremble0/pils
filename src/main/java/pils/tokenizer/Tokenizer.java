@@ -39,8 +39,11 @@ public class Tokenizer {
       if (this.readLine())
         return;
 
-    char curChar = this.line.charAt(this.lineCursor);
-    switch (curChar) {
+    switch (this.line.charAt(this.lineCursor)) {
+      case ' ':
+        ++this.lineCursor;
+        break;
+
       case '(':
         this.setToken(new Token(Token.Type.LPAREN, Optional.empty()));
         ++this.lineCursor;
@@ -65,9 +68,9 @@ public class Tokenizer {
     StringBuilder symbolBuilder = new StringBuilder();
     char curChar = this.line.charAt(this.lineCursor);
     while (curChar != '(' && curChar != ')' && curChar != ' ' && this.lineCursor < this.line.length()) {
+      ++this.lineCursor;
       symbolBuilder.append(curChar);
       curChar = this.line.charAt(this.lineCursor);
-      ++this.lineCursor;
     }
 
     this.setToken(new Token(Token.Type.SYMBOL, Optional.of(symbolBuilder.toString())));
@@ -75,12 +78,12 @@ public class Tokenizer {
 
   private void tokenizeString() {
     StringBuilder stringBuilder = new StringBuilder();
-    char curChar = this.line.charAt(this.lineCursor);
     ++this.lineCursor; // skip opening "
+    char curChar = this.line.charAt(this.lineCursor);
     while (curChar != '"' && this.lineCursor < this.line.length()) {
+      ++this.lineCursor;
       stringBuilder.append(curChar);
       curChar = this.line.charAt(this.lineCursor);
-      ++this.lineCursor;
     }
     ++this.lineCursor; // skip closing "
 
