@@ -113,4 +113,8 @@ public class Tokenizer {
       this.logStream.get().println("Line " + this.reader.getLineNumber() + ": " + token);
     this.token = token;
   }
+
+  public Token getToken() {
+    return this.token;
+  }
 }
