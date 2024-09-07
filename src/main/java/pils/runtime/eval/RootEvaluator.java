@@ -4,9 +4,11 @@ import pils.tokenizer.Tokenizer;
 
 abstract public class RootEvaluator {
   public static void eval(Tokenizer tokenizer) {
+    // Tokenizer should not have loaded any tokens yet
     if (tokenizer.getToken() != null)
       throw new AssertionError("Attempt to evaluate already used tokenizer");
 
+    // Load first token
     tokenizer.advance();
     RootEvaluator.evalLoadedRecursively(tokenizer);
   }
@@ -30,9 +32,8 @@ abstract public class RootEvaluator {
         break;
 
       case RPAREN:
-        // TODO: this is a programmer error, should throw some exception maybe
-        throw new AssertionError("Unexpected token: " + tokenizer.getToken());
-        break;
+        // TODO: this is a programmer error, should throw some better exception maybe
+        throw new RuntimeException("Unexpected token: " + tokenizer.getToken());
 
       case STRING_LITERAL:
         StringEvaluator.eval(tokenizer);
