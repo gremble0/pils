@@ -3,6 +3,9 @@ package pils.runtime.eval;
 import pils.tokenizer.Tokenizer;
 
 abstract public class RootEvaluator {
+  /**
+   * Evaluate a tokenizer. The tokenizer has to be unused (never advanced)
+   */
   public static void eval(Tokenizer tokenizer) {
     // Tokenizer should not have loaded any tokens yet
     if (tokenizer.getToken() != null)
@@ -13,6 +16,9 @@ abstract public class RootEvaluator {
     RootEvaluator.evalLoadedRecursively(tokenizer);
   }
 
+  /**
+   * Recursively evaluate the program until the tokenizer reaches EOF
+   */
   private static void evalLoadedRecursively(Tokenizer tokenizer) {
     switch (tokenizer.getToken().type()) {
       case CHAR_LITERAL:
