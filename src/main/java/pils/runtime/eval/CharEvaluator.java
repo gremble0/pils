@@ -1,15 +1,16 @@
 package pils.runtime.eval;
 
-import pils.tokenizer.Tokenizer;
-import pils.runtime.objects.PilsObject;
+import pils.runtime.objects.PilsChar;
 import pils.tokenizer.Token;
+import pils.tokenizer.Tokenizer;
 
 abstract public class CharEvaluator {
-  public static PilsObject eval(Tokenizer tokenizer) {
-    if (tokenizer.getToken().type() != Token.Type.CHAR_LITERAL)
+  public static PilsChar eval(Tokenizer tokenizer) {
+    Token token = tokenizer.getToken();
+    if (token.type() != Token.Type.CHAR_LITERAL)
       throw new AssertionError();
 
     tokenizer.advance();
-    return null;
+    return new PilsChar(token.getChar());
   }
 }
